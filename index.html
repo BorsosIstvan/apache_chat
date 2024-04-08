@@ -3,43 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chat</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    #chat-box {
-      height: 300px;
-      overflow-y: scroll;
-    }
-  </style>
+  <title>WebSocket Test</title>
 </head>
 <body>
-  <h1>Chat</h1>
-  <div id="chat-box"></div>
-  <input type="text" id="message-input" placeholder="Type your message...">
-  <button onclick="sendMessage()">Send</button>
+  <h1>WebSocket Test</h1>
+  <div id="status"></div>
+  <button onclick="sendMessage()">Send Message</button>
 
   <script>
     const socket = new WebSocket('ws://localhost:8080');
 
     socket.onopen = function(event) {
-      console.log('Connection established');
+      console.log('WebSocket connection established');
+      setStatus('WebSocket connection established');
     };
 
-    socket.onmessage = function(event) {
-      const chatBox = document.getElementById('chat-box');
-      chatBox.innerHTML += '<p>' + event.data + '</p>';
-      chatBox.scrollTop = chatBox.scrollHeight; // Scroll naar beneden
+    socket.onerror = function(error) {
+      console.error('WebSocket error:', error);
+      setStatus('WebSocket error: ' + error.message);
     };
 
     function sendMessage() {
-      const messageInput = document.getElementById('message-input');
-      const message = messageInput.value;
+      const message = 'Test message from client';
       socket.send(message);
-      messageInput.value = '';
+      console.log('Sent message:', message);
+    }
+
+    function setStatus(message) {
+      document.getElementById('status').textContent = message;
     }
   </script>
 </body>
