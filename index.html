@@ -24,10 +24,13 @@
     };
 
     function sendMessage() {
-      const message = 'Test message from client';
-      socket.send(message);
-      console.log('Sent message:', message);
+        const message = 'Test message from client';
+        setTimeout(() => {
+        socket.send(message);
+        console.log('Sent message:', message);
+        }, 1000); // Vertraging van 1 seconde
     }
+
 
     function setStatus(message) {
       document.getElementById('status').textContent = message;
