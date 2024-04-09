@@ -25,10 +25,8 @@
 
     function sendMessage() {
         const message = 'Test message from client';
-        setTimeout(() => {
         socket.send(message);
         console.log('Sent message:', message);
-        }, 1000); // Vertraging van 1 seconde
     }
 
 
