@@ -1,38 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WebSocket Test</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
 </head>
 <body>
-  <h1>WebSocket Test</h1>
-  <div id="status"></div>
-  <button onclick="sendMessage()">Send Message</button>
+    <h1>Chat</h1>
+    <div id="chat-box"></div>
+    <input type="text" id="username-input" placeholder="Enter your username...">
+    <button onclick="login()">Login</button>
+    <input type="text" id="message-input" placeholder="Type your message..." disabled>
+    <button onclick="sendMessage()" disabled>Send</button>
 
-  <script>
-    const socket = new WebSocket('ws://localhost:8000');
+    <script>
+        var username = "";
 
-    socket.onopen = function(event) {
-      console.log('WebSocket connection established');
-      setStatus('WebSocket connection established');
-    };
+        function login() {
+            var usernameInput = document.getElementById("username-input");
+            username = usernameInput.value;
+            if (username.trim() !== "") {
+                usernameInput.disabled = true;
+                document.getElementById("message-input").disabled = false;
+                document.querySelector("button[onclick='login()']").disabled = true;
+                document.querySelector("button[onclick='sendMessage()']").disabled = false;
+                displayMessage("You are now logged in as: " + username);
+            }
+        }
 
-    socket.onerror = function(error) {
-      console.error('WebSocket error:', error);
-      setStatus('WebSocket error: ' + error.message);
-    };
+        function sendMessage() {
+            var messageInput = document.getElementById("message-input");
+            var message = messageInput.value;
+            if (message.trim() !== "") {
+                displayMessage(username + ": " + message);
+                messageInput.value = "";
+            }
+        }
 
-    function sendMessage() {
-        const message = 'Test message from client';
-        socket.send(message);
-        console.log('Sent message:', message);
-    }
-
-
-    function setStatus(message) {
-      document.getElementById('status').textContent = message;
-    }
-  </script>
+        function displayMessage(message) {
+            var chatBox = document.getElementById("chat-box");
+            var messageElement = document.createElement("div");
+            messageElement.textContent = message;
+            chatBox.appendChild(messageElement);
+        }
+    </script>
 </body>
 </html>
