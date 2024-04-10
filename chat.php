@@ -25,3 +25,4 @@ foreach ($lines as $line) {
 header("Content-Type: application/json");
 echo json_encode($messages);
 ?>
+
