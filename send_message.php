@@ -8,8 +8,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($username) && !empty($message)) {
         // Lees de bestaande berichten uit het JSON-bestand
         $messages = [];
-        if (file_exists('messages.json')) {
-            $messages = json_decode(file_get_contents('messages.json'), true);
+        if (file_exists('/home/pi/poci/apache_chat/messages.json')) {
+            $messages = json_decode(file_get_contents('/home/pi/poci/apache_chat/messages.json'), true);
         }
         
         // Voeg het nieuwe bericht toe aan de lijst van berichten
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $messages[] = $newMessage;
         
         // Schrijf de bijgewerkte lijst van berichten terug naar het JSON-bestand
-        file_put_contents('messages.json', json_encode($messages, JSON_PRETTY_PRINT));
+        file_put_contents('/home/pi/poci/apache_chat/messages.json', json_encode($messages, JSON_PRETTY_PRINT));
     }
 }
 ?>
