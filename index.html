@@ -1,81 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat</title>
 </head>
 <body>
-    <h1>Chat</h1>
-    <div id="chat-box"></div>
-    <input type="text" id="username-input" placeholder="Enter your username...">
-    <button onclick="login()">Login</button>
-    <input type="text" id="message-input" placeholder="Type your message..." disabled>
-    <button onclick="sendMessage()" disabled>Send</button>
-
-    <script>
-        var username = "";
-        var chatBox = document.getElementById("chat-box");
-
-        function login() {
-            var usernameInput = document.getElementById("username-input");
-            username = usernameInput.value;
-            if (username.trim() !== "") {
-                usernameInput.disabled = true;
-                document.getElementById("message-input").disabled = false;
-                document.querySelector("button[onclick='login()']").disabled = true;
-                document.querySelector("button[onclick='sendMessage()']").disabled = false;
-                displayMessage("You are now logged in as: " + username);
-                setInterval(getMessages, 1000); // Haal periodiek nieuwe berichten op
-            }
-        }
-
-        function sendMessage() {
-            var messageInput = document.getElementById("message-input");
-            var message = messageInput.value;
-            if (message.trim() !== "") {
-                displayMessage(username + ": " + message);
-                messageInput.value = "";
-                sendToServer(message);
-            }
-        }
-
-        function sendToServer(message) {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    console.log("Message sent to server");
-                }
-            };
-            xhttp.open("POST", "chat.php", true);
-            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xhttp.send("username=" + username + "&message=" + message);
-        }
-
-        function getMessages() {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var messages = JSON.parse(this.responseText);
-                    updateChat(messages);
-                }
-            };
-            xhttp.open("GET", "chat.php", true);
-            xhttp.send();
-        }
-
-        function updateChat(messages) {
-            chatBox.innerHTML = ""; // Clear the chat box
-            messages.forEach(function(message) {
-                displayMessage(message.username + ": " + message.message);
-            });
-        }
-
-        function displayMessage(message) {
-            var messageElement = document.createElement("div");
-            messageElement.textContent = message;
-            chatBox.appendChild(messageElement);
-        }
-    </script>
+  <h1>Welkom bij de chat!</h1>
+  <p>Klik op onderstaande link om naar de chatpagina te gaan:</p>
+  <a href="chat.php">Ga naar de chat</a>
 </body>
 </html>
