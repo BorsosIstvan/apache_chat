@@ -1,13 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chat</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chat</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-  <h1>Welkom bij de chat!</h1>
-  <p>Klik op onderstaande link om naar de chatpagina te gaan:</p>
-  <a href="chat.php">Ga naar de chat</a>
+<h1>Chat</h1>
+<div id="messages"></div>
+<form id="usernameForm">
+    <input type="text" id="usernameInput" autocomplete="off" placeholder="Enter your username..." required>
+    <button type="submit">Set Username</button>
+</form>
+<form id="messageForm" style="display: none;">
+    <input type="text" id="messageInput" autocomplete="off" placeholder="Type your message..." required>
+    <button type="submit">Send</button>
+</form>
+
+<script>
+$(document).ready(function() {
+    // Function to fetch messages using AJAX
+    function fetchMessages() {
+        $.ajax({
+            url: 'fetch_messages.php', // PHP script to fetch messages
+            cache: false,
+            success: function(data) {
+                $('#messages').html(data);
+                // Scroll to bottom of messages
+                $('#messages').scrollTop($('#messages')[0].scrollHeight);
+            },
+            complete: function() {
+                setTimeout(fetchMessages, 3000); // Fetch messages every 3 seconds
+            }
+        });
+    }
+
+    // Function to set username
+    $('#usernameForm').submit(function(event) {
+        event.preventDefault();
+        var username = $('#usernameInput').val();
+        if (username.trim() !== '') {
+            // Store username in sessionStorage for future use
+            sessionStorage.setItem('username', username);
+            $('#usernameForm').hide();
+            $('#messageForm').show();
+        }
+    });
+
+    // Send message via AJAX when form is submitted
+    $('#messageForm').submit(function(event) {
+        event.preventDefault();
+        var message = $('#messageInput').val();
+        var username = sessionStorage.getItem('username');
+        if (message.trim() !== '' && username) {
+            $.post('send_message.php', { username: username, message: message });
+            $('#messageInput').val(''); // Clear input field after sending message
+        }
+    });
+
+    // Start fetching messages
+    fetchMessages();
+});
+</script>
 </body>
 </html>
