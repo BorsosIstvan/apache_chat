@@ -1,8 +1,8 @@
 <?php
 // Lees berichten uit het JSON-bestand
 $messages = [];
-//if (!file_exists('messages.json')) {
-//    file_put_contents('/home/pi/poci/apache_chat/messages.json', '[]');
+if (!file_exists('messages.json')) {
+    file_put_contents('/home/pi/poci/apache_chat/messages.json', '[]');
 if (file_exists('/home/pi/poci/apache_chat/messages.json')) {
     $messages = json_decode(file_get_contents('/home/pi/poci/apache_chat/messages.json'), true);
 }
