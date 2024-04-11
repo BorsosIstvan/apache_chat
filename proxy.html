@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Test</title>
+</head>
+<body>
+    <h1>WebSocket Test</h1>
+    <div id="status"></div>
+    <button onclick="sendMessage()">Send Message</button>
+
+    <script>
+        const socket = new WebSocket('ws://example.com/ws'); // Vervang example.com door je domein
+
+        socket.onopen = function(event) {
+            console.log('WebSocket connection established');
+            setStatus('WebSocket connection established');
+        };
+
+        socket.onerror = function(error) {
+            console.error('WebSocket error:', error);
+            setStatus('WebSocket error: ' + error.message);
+        };
+
+        function sendMessage() {
+            const message = 'Test message from client';
+            socket.send(message);
+            console.log('Sent message:', message);
+        }
+
+        function setStatus(message) {
+            document.getElementById('status').textContent = message;
+        }
+    </script>
+</body>
+</html>
