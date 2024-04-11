@@ -44,7 +44,7 @@ $(document).ready(function() {
                 $('#messages').scrollTop($('#messages')[0].scrollHeight);
             },
             complete: function() {
-                setTimeout(fetchMessages, 1000); // Fetch messages every 3 seconds
+                setTimeout(fetchMessages, 3000); // Fetch messages every 3 seconds
             }
         });
     }
