@@ -26,8 +26,21 @@ $(document).ready(function() {
             url: 'fetch_messages.php', // PHP script to fetch messages
             cache: false,
             success: function(data) {
-                $('#messages').html(data);
-                // Scroll to bottom of messages
+                // Decodeer de JSON-gegevens
+                var messages = JSON.parse(data);
+
+                // Maak een variabele aan om de geformatteerde berichten op te slaan
+                var formattedMessages = '';
+
+                // Loop door de berichten en formatteer ze
+                messages.forEach(function(message) {
+                 formattedMessages += message.username + ': ' + message.message + '<br>';
+                });
+
+                // Voeg de geformatteerde berichten toe aan het DOM
+                $('#messages').html(formattedMessages);
+
+                // Scroll naar beneden om de nieuwste berichten te tonen
                 $('#messages').scrollTop($('#messages')[0].scrollHeight);
             },
             complete: function() {
