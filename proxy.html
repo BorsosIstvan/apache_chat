@@ -11,7 +11,7 @@
     <button onclick="sendMessage()">Send Message</button>
 
     <script>
-        const socket = new WebSocket('ws://poci.n-soft.net/ws'); // Vervang example.com door je domein
+        const socket = new WebSocket('ws://poci.n-soft.net/proxy.html'); // Vervang example.com door je domein
 
         socket.onopen = function(event) {
             console.log('WebSocket connection established');
